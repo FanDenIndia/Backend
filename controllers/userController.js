@@ -8,16 +8,17 @@ const User = require("../models/userModel");
 //@route POST /api/users/register
 //@access public
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-        res.status(400);
-        throw new Error("All fields are mandatory!");
-    }
+    const { name, email, password,isAdmin } = req.body;
+    // if (!name || !email || !password) {
+    //     res.status(400);
+    //     throw new Error("All fields are mandatory!");
+    // }
     
     const pat = new User();
     pat.name = name;
     pat.email = email;
     pat.password = password;
+    pat.isAdmin = isAdmin;
 
     let error = "";
     try {
@@ -46,6 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
         name,
         email,
+        isAdmin,
         password: hashedPassword,
     });
 
@@ -76,7 +78,7 @@ const loginUser = asyncHandler(async (req, res) => {
                 user: {
                     id: user.id,
                     name: user.name,
-
+                    isAdmin:user.isAdmin,
                     email: user.email,
 
                 },
@@ -99,4 +101,16 @@ const currentUser = asyncHandler(async (req, res) => {
     res.json(req.user);
 });
 
-module.exports = { registerUser, loginUser, currentUser };
+const getCoordinatorEvents = async (req, res) => {
+    const id = req.params.id;
+    const data = await User.find(id);
+
+    if (events) {
+        res.status(200).json(data.events);
+    }
+    else {
+        console.log("No events to show !");
+    }
+}
+
+module.exports = { registerUser, loginUser, currentUser,getCoordinatorEvents };

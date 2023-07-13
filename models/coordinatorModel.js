@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 var validator = require('validator');
 
-const userSchema = new mongoose.Schema(
+const coordinatorSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Please add the user name"],
+            required: [true, "Please add the name"],
         },
 
         email: {
@@ -20,10 +20,14 @@ const userSchema = new mongoose.Schema(
 
         password: {
             type: String,
-            required: [true, "Please add the user password"],
+            required: [true, "Please add the password"],
         },
         events: {
             type: [String],
+        },
+        isCoordinator: {
+            type: Boolean,
+            default: true
         }
     },
     {
@@ -31,4 +35,4 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Coordinator", coordinatorSchema);
