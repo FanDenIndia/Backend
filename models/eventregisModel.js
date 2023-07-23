@@ -37,6 +37,11 @@ const eventRegisSchema = new mongoose.Schema({
     count: {
         type: Number,
         default:1
+    },
+    qrcode: {
+        type: String,
+        default:""
+
     }
 })
 

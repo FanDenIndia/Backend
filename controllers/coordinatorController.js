@@ -92,19 +92,21 @@ const coordinatorEventRegis = asyncHandler(async (req, res) => {
     const id = req.query.id;
     const data = await Coordinator.find({ _id: id });
 
-    const events = data[0].events;
+    const event = data[0].events;
+    const events = event[0].split(",")
+    console.log(events)
 
     const regis=[];
 
     events.forEach(async (e,i) => {
         // console.log(e)
         const ev = await Event.find({ eventID: e });
-        console.log("ev = ", ev);
+        console.log("ev = ", ev[0]);
 
         const regi = await EventRegis.find({ eventID: e });
         console.log(regi);
 
-        const obj = { registrations: regi };
+        const obj = { "eventTitle": ev[0].title, "eventID": ev[0].eventID, "registrations": regi };
 
 
         console.log("obj = ", obj);

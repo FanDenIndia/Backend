@@ -80,7 +80,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
                 },
             },
             process.env.ACCESS_TOKEN_SECERT,
-            { expiresIn: "1h" }
+            { expiresIn: "24h" }
         );
         res.status(200).json({ accessToken });
     } else {
@@ -263,5 +263,20 @@ const updateCoordinator = async (req, res) => {
 
 }
 
+const getCoordinator = async (req, res) => {
+    const id = req.query.id;
+    console.log(id);
 
-module.exports = { registerAdmin, loginAdmin, currentAdmin, updateEvent, deleteEvent, addEvent, getallevents, updateEventRegis, getAllEventRegis, particularEventRegis,updateCoordinator };
+    try {
+        const coord = await Coordinator.find({ _id: id });
+
+        console.log(coord)
+        res.status(200).json(coord);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+
+module.exports = { registerAdmin, loginAdmin, currentAdmin, updateEvent, deleteEvent, addEvent, getallevents, updateEventRegis, getAllEventRegis, particularEventRegis,updateCoordinator,getCoordinator };

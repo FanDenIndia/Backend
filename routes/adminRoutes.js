@@ -2,7 +2,7 @@ const express = require("express")
 
 const router = express.Router();
 const {
-    registerAdmin, loginAdmin, currentAdmin, updateEvent, deleteEvent, addEvent, getallevents, updateEventRegis, getAllEventRegis, particularEventRegis,updateCoordinator
+    registerAdmin, loginAdmin, currentAdmin, updateEvent, deleteEvent, addEvent, getallevents, updateEventRegis, getAllEventRegis, particularEventRegis,updateCoordinator,getCoordinator
 } = require("../controllers/adminController");
 const validateAdminToken = require("../middleware/validateAdminToken");
 const verifyAdmin = require('../middleware/verifyAdmin')
@@ -18,5 +18,6 @@ router.get('/alleventregis', verifyAdmin, getAllEventRegis);
 router.get('/particulareventregis', verifyAdmin, particularEventRegis);
 router.put('/updateeventregis', verifyAdmin, updateEventRegis);
 router.put('/updatecoordinator', verifyAdmin, updateCoordinator);
+router.get('/getcoordinator', verifyAdmin, getCoordinator);
 
 module.exports = router;

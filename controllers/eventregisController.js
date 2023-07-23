@@ -17,7 +17,7 @@ const geteventsbyemail = async(req, res) => {
 
 
 const createEventRegis = async (req, res) => {
-    const { firstName, lastName, phone, email, eventName, support, order_notes, used, count,eventID } = req.body;
+    const { firstName, lastName, phone, email, eventName, support, order_notes, used, count,eventID,qrcode } = req.body;
 
     const eventregis = new EventRegis();
     eventregis.firstName = firstName;
@@ -30,6 +30,7 @@ const createEventRegis = async (req, res) => {
     eventregis.used = used;
     eventregis.count = count;
     eventregis.eventID = eventID;
+    eventregis.qrcode = qrcode;
 
     let error = "";
     try {
@@ -41,10 +42,6 @@ const createEventRegis = async (req, res) => {
         res.status(400).json({ "message": error.message.split(":")[2] });
     }
 
-    // if (error) {
-    //     // throw new Error(error.message)
-    // }
-
     const neweventregis = await EventRegis.create({
         firstName,
         lastName,
@@ -55,7 +52,8 @@ const createEventRegis = async (req, res) => {
         support,
         used,
         count,
-        eventID
+        eventID,
+        qrcode
     });
 
     let data = {
@@ -69,7 +67,8 @@ const createEventRegis = async (req, res) => {
         support: neweventregis.support,
         used: neweventregis.used,
         count: neweventregis.count,
-        eventID: neweventregis.eventID
+        eventID: neweventregis.eventID,
+        qrcode:neweventregis.qrcode
     }
 
     let config = {
@@ -92,9 +91,13 @@ const createEventRegis = async (req, res) => {
         // console.log("new event registration")
 
         // Display QR code in base64 string
-        qr.toDataURL(strJson, config, function (err, code) {
+        // let user = db.
+        qr.toDataURL(strJson, config, async (err, code) => {
             if (err) return console.log("error occurred");
             console.log(code)
+            const ev = await EventRegis.findByIdAndUpdate(neweventregis._id, { qrcode: code }, {new : true})
+            // evregis.qrcode = code;
+            console.log(ev);
             res.status(200).json({ "qrcode": code });
         });
 
