@@ -83,6 +83,14 @@ http://localhost:5001/api/admin/particulareventregis?eventID=<eventID>      (GET
 ```
 http://localhost:5001/api/admin/updatecoordinator?id=<coordinator's _id>       (GET)
 ```
+### - Get Coordinator By ID
+```
+http://localhost:5001/api/admin/getcoordinator?id=<coordinator's _id>       (GET)
+```
+### - Get Coordinator Events
+```
+http://localhost:5001/api/admin/coordinatorevents       (GET)
+```
 
 ## **Coordinator APIs**
 
