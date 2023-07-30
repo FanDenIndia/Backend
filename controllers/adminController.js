@@ -278,5 +278,17 @@ const getCoordinator = async (req, res) => {
     }
 }
 
+const CoordinatorEvents = async (req, res) => {
+    try {
+        const data = await Coordinator.find({}).select('name events')
+        console.log(data);
+        res.status(200).json(data);
+    }
+    catch (err) {
+        console.log(err);
+    }
+  
+}
 
-module.exports = { registerAdmin, loginAdmin, currentAdmin, updateEvent, deleteEvent, addEvent, getallevents, updateEventRegis, getAllEventRegis, particularEventRegis,updateCoordinator,getCoordinator };
+
+module.exports = { registerAdmin, loginAdmin, currentAdmin, updateEvent, deleteEvent, addEvent, getallevents, updateEventRegis, getAllEventRegis, particularEventRegis,updateCoordinator,getCoordinator,CoordinatorEvents };

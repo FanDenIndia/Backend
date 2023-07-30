@@ -57,18 +57,20 @@ const createEventRegis = async (req, res) => {
     });
 
     let data = {
-        _id:neweventregis._id,
-        firstName: neweventregis.firstName,
-        lastName: neweventregis.lastName,
-        phone: neweventregis.phone,
-        email: neweventregis.email,
-        eventName: neweventregis.eventName,
-        order_notes: neweventregis.order_notes,
-        support: neweventregis.support,
-        used: neweventregis.used,
-        count: neweventregis.count,
-        eventID: neweventregis.eventID,
-        qrcode:neweventregis.qrcode
+        // data: {
+            _id: neweventregis._id,
+            firstName: neweventregis.firstName,
+            lastName: neweventregis.lastName,
+            phone: neweventregis.phone,
+            email: neweventregis.email,
+            eventName: neweventregis.eventName,
+            order_notes: neweventregis.order_notes,
+            support: neweventregis.support,
+            used: neweventregis.used,
+            count: neweventregis.count,
+            eventID: neweventregis.eventID,
+            qrcode: neweventregis.qrcode
+        // }
     }
 
     let config = {

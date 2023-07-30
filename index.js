@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 app.use("/api/user", require("./routes/userRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/coordinator", require("./routes/coordinatorRoutes"));
+app.use("/api/email", require("./routes/email"));
 // app.use("/api/coordinator", require("./routes/coordinatorRoutes"));
 app.use("/api/event", require("./routes/eventRoutes"));
 app.use("/api/eventregis", require("./routes/eventregisRoutes"));
