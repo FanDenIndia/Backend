@@ -1,81 +1,107 @@
-const asyncHandler = require("express-async-handler");
-const Event = require("../models/eventModel");
+const asyncHandler = require('express-async-handler');
+const Event = require('../models/eventModel');
 
 // CREATE
 const addEvent = asyncHandler(async (req, res) => {
-    const { title, poster, originalPrice, discountedPrice, city} = req.body;
+  const { title, poster, originalPrice, discountedPrice, city } = req.body;
 
-    const event = new Event();
-    event.title = title;
-    event.originalPrice = originalPrice;
-    event.discountedPrice = discountedPrice;
-    event.poster = poster;
-    event.city = city;
-    
+  const event = new Event();
+  event.title = title;
+  event.originalPrice = originalPrice;
+  event.discountedPrice = discountedPrice;
+  event.poster = poster;
+  event.city = city;
 
-    let error = "";
-    try {
-        await event.validate();
-    } catch (err) {
-        console.log(err.message.split(":")[2])
-        console.log(err.message);
-        error = err;
-    }
+  let error = '';
+  try {
+    await event.validate();
+  } catch (err) {
+    console.log(err.message.split(':')[2]);
+    console.log(err.message);
+    error = err;
+  }
 
-    if (error) {
-        res.status(400);
-        throw new Error(error.message.split(": ")[2])
-    }
+  if (error) {
+    res.status(400);
+    throw new Error(error.message.split(': ')[2]);
+  }
 
-    const eventAvailable = await Event.findOne({ title, city });
-    if (eventAvailable) {
-        res.status(400);
-        throw new Error("This event already exists!");
-    }
+  const eventAvailable = await Event.findOne({ title, city });
+  if (eventAvailable) {
+    res.status(400);
+    throw new Error('This event already exists!');
+  }
 
-    const newevent = await Event.create({
-        title,
-        city,
-        originalPrice,
-        discountedPrice,
-        poster
-        
+  const newevent = await Event.create({
+    title,
+    city,
+    originalPrice,
+    discountedPrice,
+    poster,
+  });
+
+  console.log(`New Featured event created ${newevent}`);
+  if (newevent) {
+    console.log('new features');
+    res.status(201).json({
+      _id: newevent.id,
+      title: newevent.title,
+      city: newevent.city,
+      poster: newevent.poster,
+      discountedPrice: newevent.discountedPrice,
+      originalPrice: newevent.originalPrice,
     });
-
-    console.log(`New Featured event created ${newevent}`);
-    if (newevent) {
-        console.log("new features")
-        res.status(201).json({
-            _id: newevent.id,
-            title: newevent.title,
-            city: newevent.city,
-            poster: newevent.poster,
-            discountedPrice: newevent.discountedPrice,
-            originalPrice: newevent.originalPrice,
-            
-        });
-    } else {
-        res.status(400);
-        throw new Error("Event data is not valid");
-    }
-    res.json({ message: "Add a event!" });
-
-})
+  } else {
+    res.status(400);
+    throw new Error('Event data is not valid');
+  }
+  res.json({ message: 'Add a event!' });
+});
 
 // READ
 const getEvent = asyncHandler(async (req, res) => {
+  console.log(req.query);
+  const data = await Event.find(req.query);
 
-    const data = await Event.find(req.query);
+  if (data) {
+    res.status(200).json(data);
+  } else {
+    res.status(400).json({ message: 'No data to display!' });
+  }
+});
 
-    if (data) {
-        res.status(200).json(data);
+const getPastEvent = asyncHandler(async (req, res) => {
+  let pastEvent = [];
+  const today = new Date();
+  const data = await Event.find();
+  data.map((eventData) => {
+    if (today > eventData.eventDate) {
+      pastEvent.push(eventData);
     }
-    else {
-        res.status(400).json({ "message": "No data to display!" });
+  });
+
+  if (data) {
+    res.status(200).json(pastEvent);
+  } else {
+    res.status(400).json({ message: 'No data to display!' });
+  }
+});
+
+const getUpcomingEvent = asyncHandler(async (req, res) => {
+  let upcomingEvent = [];
+  const today = new Date();
+  const data = await Event.find();
+  data.map((eventData) => {
+    if (today < eventData.eventDate) {
+      upcomingEvent.push(eventData);
     }
+  });
 
-})
+  if (data) {
+    res.status(200).json(upcomingEvent);
+  } else {
+    res.status(400).json({ message: 'No data to display!' });
+  }
+});
 
-
-
-module.exports = { getEvent,addEvent }
+module.exports = { getEvent, addEvent, getPastEvent, getUpcomingEvent };
