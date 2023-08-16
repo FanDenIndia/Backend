@@ -80,7 +80,7 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECERT,
-      { expiresIn: '15m' }
+      { expiresIn: '31d' }
     );
     res.status(200).json({ accessToken });
   } else {
@@ -108,4 +108,9 @@ const getCoordinatorEvents = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, currentUser, getCoordinatorEvents };
+module.exports = {
+  registerUser,
+  loginUser,
+  currentUser,
+  getCoordinatorEvents,
+};
