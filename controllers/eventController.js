@@ -3,7 +3,15 @@ const Event = require('../models/eventModel');
 
 // CREATE
 const addEvent = asyncHandler(async (req, res) => {
-  const { title, poster, originalPrice, discountedPrice, city } = req.body;
+  const {
+    title,
+    poster,
+    originalPrice,
+    discountedPrice,
+    city,
+
+    quantity,
+  } = req.body;
 
   const event = new Event();
   event.title = title;
@@ -11,6 +19,8 @@ const addEvent = asyncHandler(async (req, res) => {
   event.discountedPrice = discountedPrice;
   event.poster = poster;
   event.city = city;
+
+  event.quantity = quantity;
 
   let error = '';
   try {
@@ -38,6 +48,8 @@ const addEvent = asyncHandler(async (req, res) => {
     originalPrice,
     discountedPrice,
     poster,
+
+    quantity,
   });
 
   console.log(`New Featured event created ${newevent}`);
@@ -50,6 +62,8 @@ const addEvent = asyncHandler(async (req, res) => {
       poster: newevent.poster,
       discountedPrice: newevent.discountedPrice,
       originalPrice: newevent.originalPrice,
+
+      quantity: newevent.quantity,
     });
   } else {
     res.status(400);

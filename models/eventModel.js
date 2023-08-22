@@ -28,6 +28,11 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'Please enter the event Date'],
   },
+
+  quantity: {
+    type: Number,
+    required: [true, 'Please enter the quantity'],
+  },
 });
 
 module.exports = mongoose.model('Event', eventSchema);

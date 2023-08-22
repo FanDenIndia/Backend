@@ -130,6 +130,7 @@ const addEvent = asyncHandler(async (req, res) => {
     city,
     eventID,
     eventDate,
+    quantity,
   } = req.body;
   // console.log(req.body);
 
@@ -141,6 +142,7 @@ const addEvent = asyncHandler(async (req, res) => {
   event.city = city;
   event.eventID = eventID;
   event.eventDate = eventDate;
+  event.quantity = quantity;
 
   let error = '';
   try {
@@ -170,6 +172,7 @@ const addEvent = asyncHandler(async (req, res) => {
     poster,
     eventID,
     eventDate,
+    quantity,
   });
 
   console.log(`New Featured event created ${newevent}`);
@@ -184,6 +187,7 @@ const addEvent = asyncHandler(async (req, res) => {
       originalPrice: newevent.originalPrice,
       eventID: newevent.eventID,
       evenDate: newevent.eventDate,
+      quantity: newevent.quantity,
     });
   } else {
     res.status(400);
