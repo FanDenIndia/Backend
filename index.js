@@ -26,6 +26,7 @@ app.use('/api/email', require('./routes/email'));
 app.use('/api/event', require('./routes/eventRoutes'));
 app.use('/api/eventregis', require('./routes/eventregisRoutes'));
 app.use('/api/order', require('./routes/orderRoutes'));
+app.use('/api/payment', require('./routes/paymentRoutes'));
 
 app.use(errorHandler);
 
