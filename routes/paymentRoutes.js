@@ -5,7 +5,7 @@ const Insta = require('instamojo-nodejs');
 
 Insta.setKeys(process.env.INSTAMOJO_API_KEY, process.env.INSTAMOJO_AUTH_KEY);
 // if(process.env.SANDBOX) Insta.isSandboxMode(true);
-// Insta.isSandboxMode(process.env.SANDBOX);
+Insta.isSandboxMode(process.env.SANDBOX);
 
 
 router.post('/createPayment', async (req, res) => {
