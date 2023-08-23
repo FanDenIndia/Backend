@@ -1,9 +1,9 @@
-const express = require('express');
-const router = new express.Router();
+const EventRegis = require('../models/eventregisModel');
+
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config();
 
-router.post('/sendemail', (req, res) => {
+const sendBulkEmail = async (req, res) => {
   const { emails, message } = req.body;
 
   try {
@@ -35,6 +35,7 @@ router.post('/sendemail', (req, res) => {
     console.log('Error' + error);
     res.status(401).json({ status: 401, error });
   }
-});
-
-module.exports = router;
+};
+module.exports = {
+  sendBulkEmail,
+};
