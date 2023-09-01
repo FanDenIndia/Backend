@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 var validator = require('validator');
 
-const userSchema = new mongoose.Schema(
+const promoterSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Please add the user name"],
+            required: [true, "Please add the Promoter name"],
         },
 
         email: {
@@ -17,17 +17,9 @@ const userSchema = new mongoose.Schema(
             validate: [validator.isEmail, 'Please fill a valid email address']
         },
 
-
-        password: {
-            type: String,
-            required: [true, "Please add the user password"],
-        },
-        events: {
-            type: [String],
-        },
-        isPromoter: {
-            type: Boolean,
-            default: false,
+        sales:{
+            type:Number,
+            default:0,
         }
     },
     {
@@ -35,4 +27,4 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Promoter", promoterSchema);

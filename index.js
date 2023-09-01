@@ -26,6 +26,7 @@ app.use('/api/marketing', require('./routes/marketingRoutes'));
 app.use('/api/event', require('./routes/eventRoutes'));
 app.use('/api/eventregis', require('./routes/eventregisRoutes'));
 app.use('/api/order', require('./routes/orderRoutes'));
+app.use('/api/promoter', require('./routes/promoterRoutes'));
 
 app.use(errorHandler);
 
