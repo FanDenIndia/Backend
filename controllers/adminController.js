@@ -5,6 +5,8 @@ const Admin = require('../models/adminModel');
 const Event = require('../models/eventModel');
 const Coordinator = require('../models/coordinatorModel');
 const EventRegis = require('../models/eventregisModel');
+const Venue = require('../models/venueModel');
+const Article = require('../models/articleModel');
 
 //@desc Register a user
 //@route POST /api/users/register
@@ -291,6 +293,76 @@ const CoordinatorEvents = async (req, res) => {
   }
 };
 
+const addVenue = asyncHandler(async (req, res) => {
+  const { name, pinCode, city, address } = req.body;
+
+  const newVenue = await Venue.create({
+    name,
+    pinCode,
+    city,
+    address,
+  });
+
+  console.log(`New Venue is created ${newVenue}`);
+  if (newVenue) {
+    console.log('new venue');
+    res.status(201).json({
+      _id: newVenue.id,
+      name: newVenue.name,
+      pinCode: newVenue.pinCode,
+      city: newVenue.city,
+      address: newVenue.address,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Venue data is not valid');
+  }
+});
+
+const getAllVenue = asyncHandler(async (req, res) => {
+  try {
+    const data = await Venue.find({});
+    res.json(data).status(201);
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+  }
+});
+
+const addArticle = asyncHandler(async (req, res) => {
+  const { title, content } = req.body;
+
+  const newArticle = await Article.create({
+    title,
+    content,
+    date: new Date(),
+  });
+
+  console.log(`New Article is created ${newArticle}`);
+  if (newArticle) {
+    console.log('new article');
+    res.status(201).json({
+      _id: newArticle.id,
+      title: newArticle.title,
+      content: newArticle.content,
+      date: newArticle.date,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Article is not valid');
+  }
+});
+
+const getAllArticle = asyncHandler(async (req, res) => {
+  try {
+    const data = await Article.find({});
+    res.json(data).status(201);
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+  }
+});
+
 module.exports = {
   registerAdmin,
   loginAdmin,
@@ -305,4 +377,8 @@ module.exports = {
   updateCoordinator,
   getCoordinator,
   CoordinatorEvents,
+  addVenue,
+  getAllVenue,
+  addArticle,
+  getAllArticle,
 };
