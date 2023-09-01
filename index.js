@@ -25,6 +25,7 @@ app.use('/api/coordinator', require('./routes/coordinatorRoutes'));
 app.use('/api/marketing', require('./routes/marketingRoutes'));
 app.use('/api/event', require('./routes/eventRoutes'));
 app.use('/api/eventregis', require('./routes/eventregisRoutes'));
+app.use('/api/payment', require('./routes/paymentRoutes'));
 app.use('/api/order', require('./routes/orderRoutes'));
 app.use('/api/promoter', require('./routes/promoterRoutes'));
 
