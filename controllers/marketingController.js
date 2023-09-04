@@ -19,13 +19,13 @@ const sendBulkEmail = async (req, res) => {
       from: process.env.EMAIL,
       to: emails,
       subject: 'Fan Den India Official',
-      text: message,
-      html: `<h1>Congratulation</h1> <h1> ${message} </h2>`,
+      // text: message,
+      html: message,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log('Error' + error);
+        console.log('Error ' + error);
       } else {
         console.log('Email sent:' + info.response);
         res.status(201).json({ status: 201, info });

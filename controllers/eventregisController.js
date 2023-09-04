@@ -52,7 +52,16 @@ const createEventRegis = async (req, res) => {
     count,
     eventID,
     qrcode,
+    paymentId
   } = req.body;
+
+  // Check if a record with the same paymentId already exists
+  const existingEventRegis = await EventRegis.findOne({ paymentId });
+
+  if (existingEventRegis) {
+    // If a record with the same paymentId exists, return an error response
+    return res.status(400).json({ message: 'Event registration with the same paymentId already exists.' });
+  }
 
   const eventregis = new EventRegis();
   eventregis.firstName = firstName;
@@ -66,15 +75,15 @@ const createEventRegis = async (req, res) => {
   eventregis.count = count;
   eventregis.eventID = eventID;
   eventregis.qrcode = qrcode;
+  eventregis.paymentId = paymentId;
 
   let error = '';
   try {
     await eventregis.validate();
   } catch (err) {
     console.log(err.message.split(':')[2]);
-    // console.log(err.message);
     error = err;
-    res.status(400).json({ message: error.message.split(':')[2] });
+    return res.status(400).json({ message: error.message.split(':')[2] });
   }
 
   const neweventregis = await EventRegis.create({
@@ -89,10 +98,10 @@ const createEventRegis = async (req, res) => {
     count,
     eventID,
     qrcode,
+    paymentId
   });
 
   let data = {
-    // data: {
     _id: neweventregis._id,
     firstName: neweventregis.firstName,
     lastName: neweventregis.lastName,
@@ -105,7 +114,7 @@ const createEventRegis = async (req, res) => {
     count: neweventregis.count,
     eventID: neweventregis.eventID,
     qrcode: neweventregis.qrcode,
-    // }
+    paymentId: neweventregis.paymentId
   };
 
   let config = {
@@ -123,10 +132,8 @@ const createEventRegis = async (req, res) => {
 
   if (neweventregis) {
     console.log(`New event registration ! ${neweventregis}`);
-    // console.log("new event registration")
 
     // Display QR code in base64 string
-    // let user = db.
     qr.toDataURL(strJson, config, async (err, code) => {
       if (err) return console.log('error occurred');
       console.log(code);
@@ -135,7 +142,6 @@ const createEventRegis = async (req, res) => {
         { qrcode: code },
         { new: true }
       );
-      // evregis.qrcode = code;
       console.log(ev);
       res.status(200).json({ qrcode: code });
     });
@@ -143,7 +149,6 @@ const createEventRegis = async (req, res) => {
     res.status(400);
     throw new Error('Event registration failed !');
   }
-  // res.json({ message: "Add a event!" });
 };
 
 module.exports = {

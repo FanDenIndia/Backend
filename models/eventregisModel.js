@@ -42,6 +42,13 @@ const eventRegisSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-});
+  paymentId:{
+    type: String,
+  }
+},
+{
+  timestamps: true,
+}
+);
 
 module.exports = mongoose.model('EventRegis', eventRegisSchema);
