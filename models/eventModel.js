@@ -13,6 +13,10 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add the city'],
   },
+  venue: {
+    type: String,
+    required: [true, 'Please add the venue'],
+  },
   originalPrice: {
     type: Number,
     required: [true, 'Please add the Original Price'],

@@ -9,7 +9,7 @@ const addEvent = asyncHandler(async (req, res) => {
     originalPrice,
     discountedPrice,
     city,
-
+    venue,
     quantity,
   } = req.body;
 
@@ -19,7 +19,7 @@ const addEvent = asyncHandler(async (req, res) => {
   event.discountedPrice = discountedPrice;
   event.poster = poster;
   event.city = city;
-
+  event.venue = venue;
   event.quantity = quantity;
 
   let error = '';
@@ -48,7 +48,7 @@ const addEvent = asyncHandler(async (req, res) => {
     originalPrice,
     discountedPrice,
     poster,
-
+    venue,
     quantity,
   });
 
@@ -59,6 +59,7 @@ const addEvent = asyncHandler(async (req, res) => {
       _id: newevent.id,
       title: newevent.title,
       city: newevent.city,
+      venue: newevent.venue,
       poster: newevent.poster,
       discountedPrice: newevent.discountedPrice,
       originalPrice: newevent.originalPrice,

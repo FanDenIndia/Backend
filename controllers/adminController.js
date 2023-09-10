@@ -130,6 +130,7 @@ const addEvent = asyncHandler(async (req, res) => {
     originalPrice,
     discountedPrice,
     city,
+    venue,
     eventID,
     eventDate,
     quantity,
@@ -142,6 +143,7 @@ const addEvent = asyncHandler(async (req, res) => {
   event.discountedPrice = discountedPrice;
   event.poster = poster;
   event.city = city;
+  event.venue = venue;
   event.eventID = eventID;
   event.eventDate = eventDate;
   event.quantity = quantity;
@@ -169,6 +171,7 @@ const addEvent = asyncHandler(async (req, res) => {
   const newevent = await Event.create({
     title,
     city,
+    venue,
     originalPrice,
     discountedPrice,
     poster,
@@ -184,6 +187,7 @@ const addEvent = asyncHandler(async (req, res) => {
       _id: newevent.id,
       title: newevent.title,
       city: newevent.city,
+      venue: newevent.venue,
       poster: newevent.poster,
       discountedPrice: newevent.discountedPrice,
       originalPrice: newevent.originalPrice,
