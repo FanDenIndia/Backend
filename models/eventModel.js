@@ -28,6 +28,10 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter the event ID'],
   },
+  description: {
+    type: String,
+  },
+  
   eventDate: {
     type: Date,
     required: [true, 'Please enter the event Date'],

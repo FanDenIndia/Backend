@@ -134,6 +134,7 @@ const addEvent = asyncHandler(async (req, res) => {
     eventID,
     eventDate,
     quantity,
+    description
   } = req.body;
   // console.log(req.body);
 
@@ -147,6 +148,7 @@ const addEvent = asyncHandler(async (req, res) => {
   event.eventID = eventID;
   event.eventDate = eventDate;
   event.quantity = quantity;
+  event.description = description;
 
   let error = '';
   try {
@@ -178,6 +180,7 @@ const addEvent = asyncHandler(async (req, res) => {
     eventID,
     eventDate,
     quantity,
+    description
   });
 
   console.log(`New Featured event created ${newevent}`);
@@ -194,6 +197,7 @@ const addEvent = asyncHandler(async (req, res) => {
       eventID: newevent.eventID,
       evenDate: newevent.eventDate,
       quantity: newevent.quantity,
+      description: newevent.description,
     });
   } else {
     res.status(400);
