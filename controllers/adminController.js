@@ -48,7 +48,6 @@ const registerAdmin = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  console.log(`Admin created ${admin}`);
   if (admin) {
     res.status(201).json({ _id: admin.id, email: admin.email });
   } else {
@@ -99,7 +98,6 @@ const currentAdmin = asyncHandler(async (req, res) => {
 // UPDATE
 const updateEvent = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   try {
     const event = await Event.findByIdAndUpdate(id, req.body, { new: true });
     res.status(200).json(event);
@@ -111,11 +109,9 @@ const updateEvent = asyncHandler(async (req, res) => {
 // DELETE
 const deleteEvent = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   try {
     const event = await Event.findByIdAndDelete(id);
 
-    console.log(event);
     res.status(200).json(event);
   } catch (err) {
     console.log(err);
@@ -134,9 +130,9 @@ const addEvent = asyncHandler(async (req, res) => {
     eventID,
     eventDate,
     quantity,
-    description
+    description,
+    payAtVenue, // Add the new field here
   } = req.body;
-  // console.log(req.body);
 
   const event = new Event();
   event.title = title;
@@ -149,6 +145,7 @@ const addEvent = asyncHandler(async (req, res) => {
   event.eventDate = eventDate;
   event.quantity = quantity;
   event.description = description;
+  event.payAtVenue = payAtVenue; // Set the new field here
 
   let error = '';
   try {
@@ -180,12 +177,11 @@ const addEvent = asyncHandler(async (req, res) => {
     eventID,
     eventDate,
     quantity,
-    description
+    description,
+    payAtVenue, // Include the new field here
   });
 
-  console.log(`New Featured event created ${newevent}`);
   if (newevent) {
-    console.log('new features');
     res.status(201).json({
       _id: newevent.id,
       title: newevent.title,
@@ -198,13 +194,15 @@ const addEvent = asyncHandler(async (req, res) => {
       evenDate: newevent.eventDate,
       quantity: newevent.quantity,
       description: newevent.description,
+      payAtVenue: newevent.payAtVenue, // Include the new field here
     });
   } else {
     res.status(400);
     throw new Error('Event data is not valid');
   }
-  res.json({ message: 'Add a event!' });
+  res.json({ message: 'Add an event!' });
 });
+
 
 const getallevents = async (req, res) => {
   const data = await Event.find();
@@ -240,7 +238,6 @@ const particularEventRegis = async (req, res) => {
 
 const updateEventRegis = async (req, res) => {
   const id = req.query.id;
-  console.log(id);
   try {
     const eventregis = await EventRegis.findByIdAndUpdate(
       id,
@@ -250,7 +247,6 @@ const updateEventRegis = async (req, res) => {
       { new: true }
     );
 
-    console.log(eventregis);
     res.status(200).json(eventregis);
   } catch (err) {
     console.log(err);
@@ -260,7 +256,6 @@ const updateEventRegis = async (req, res) => {
 const updateCoordinator = async (req, res) => {
   const id = req.query.id;
   const events = req.body.events;
-  console.log(id, events);
   try {
     const coord = await Coordinator.findByIdAndUpdate(
       id,
@@ -270,7 +265,6 @@ const updateCoordinator = async (req, res) => {
       { new: true }
     );
 
-    console.log(coord);
     res.status(200).json(coord);
   } catch (err) {
     console.log(err);
@@ -279,12 +273,10 @@ const updateCoordinator = async (req, res) => {
 
 const getCoordinator = async (req, res) => {
   const id = req.query.id;
-  console.log(id);
 
   try {
     const coord = await Coordinator.find({ _id: id });
 
-    console.log(coord);
     res.status(200).json(coord);
   } catch (err) {
     console.log(err);
@@ -294,7 +286,6 @@ const getCoordinator = async (req, res) => {
 const CoordinatorEvents = async (req, res) => {
   try {
     const data = await Coordinator.find({}).select('name events');
-    console.log(data);
     res.status(200).json(data);
   } catch (err) {
     console.log(err);
@@ -311,9 +302,7 @@ const addVenue = asyncHandler(async (req, res) => {
     address,
   });
 
-  console.log(`New Venue is created ${newVenue}`);
   if (newVenue) {
-    console.log('new venue');
     res.status(201).json({
       _id: newVenue.id,
       name: newVenue.name,
@@ -346,9 +335,7 @@ const addArticle = asyncHandler(async (req, res) => {
     date: new Date(),
   });
 
-  console.log(`New Article is created ${newArticle}`);
   if (newArticle) {
-    console.log('new article');
     res.status(201).json({
       _id: newArticle.id,
       title: newArticle.title,

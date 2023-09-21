@@ -41,6 +41,11 @@ const eventSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please enter the quantity'],
   },
+
+  payAtVenue:{
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model('Event', eventSchema);

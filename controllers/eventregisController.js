@@ -57,15 +57,20 @@ const createEventRegis = async (req, res) => {
       count,
       eventID,
       qrcode,
-      paymentId
+      paymentId,
+      amount
     } = req.body;
 
     // Check if a record with the same paymentId already exists
-    const existingEventRegis = await EventRegis.findOne({ paymentId }).session(session);
+    if (paymentId) {
 
-    if (existingEventRegis) {
-      // If a record with the same paymentId exists, return an error response
-      return res.status(400).json({ message: 'Event registration with the same paymentId already exists.' });
+
+      const existingEventRegis = await EventRegis.findOne({ paymentId }).session(session);
+
+      if (existingEventRegis) {
+        // If a record with the same paymentId exists, return an error response
+        return res.status(400).json({ message: 'Event registration with the same paymentId already exists.' });
+      }
     }
 
     const eventregis = new EventRegis();
@@ -81,6 +86,7 @@ const createEventRegis = async (req, res) => {
     eventregis.eventID = eventID;
     eventregis.qrcode = qrcode;
     eventregis.paymentId = paymentId;
+    eventregis.amount = amount;
 
     await eventregis.validate();
 
@@ -99,7 +105,8 @@ const createEventRegis = async (req, res) => {
       count: neweventregis.count,
       eventID: neweventregis.eventID,
       qrcode: neweventregis.qrcode,
-      paymentId: neweventregis.paymentId
+      paymentId: neweventregis.paymentId,
+      amount: neweventregis.amount
     };
 
     let config = {
@@ -116,7 +123,6 @@ const createEventRegis = async (req, res) => {
     let strJson = JSON.stringify(data);
 
     if (neweventregis) {
-      console.log(`New event registration! ${neweventregis}`);
 
       // Display QR code in base64 string
       qr.toDataURL(strJson, config, async (err, code) => {
@@ -125,18 +131,18 @@ const createEventRegis = async (req, res) => {
           session.endSession();
           return console.log('error occurred');
         }
-        console.log(code);
+        // console.log(code);
         const ev = await EventRegis.findByIdAndUpdate(
           neweventregis._id,
           { qrcode: code },
           { new: true, session: session }
         );
-        console.log(ev);
+        // console.log(ev);
 
         await session.commitTransaction();
         session.endSession();
 
-        res.status(200).json({ qrcode: code });
+        res.status(200).json(data);
       });
     } else {
       await session.abortTransaction();

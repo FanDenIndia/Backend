@@ -44,6 +44,9 @@ const eventRegisSchema = new mongoose.Schema({
   },
   paymentId:{
     type: String,
+  },
+  amount:{
+    type: String,
   }
 },
 {

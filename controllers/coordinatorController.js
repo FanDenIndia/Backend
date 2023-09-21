@@ -40,7 +40,6 @@ const registerCoordinator = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  console.log(`Coordinator created ${coordinator}`);
   if (coordinator) {
     res.status(201).json({ _id: coordinator.id, email: coordinator.email });
   } else {
@@ -90,7 +89,6 @@ const coordinatorEventRegis = asyncHandler(async (req, res) => {
 
   const event = data[0].events;
   const events = event[0].split(',');
-  console.log(events);
 
   const regis = [];
 
