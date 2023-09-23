@@ -45,6 +45,11 @@ const eventSchema = new mongoose.Schema({
   payAtVenue:{
     type: Boolean,
     default: false
+  },
+
+  featuredEvent:{
+    type: Boolean,
+    default: false
   }
 });
 

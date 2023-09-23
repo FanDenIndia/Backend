@@ -119,4 +119,15 @@ const getUpcomingEvent = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getEvent, addEvent, getPastEvent, getUpcomingEvent };
+const getFeaturedEvents = async (req,res)=>{
+
+  try {
+    const data  = await Event.find({featuredEvent:true});
+    res.status(200).json(data);
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+module.exports = { getEvent, addEvent, getPastEvent, getUpcomingEvent, getFeaturedEvents };

@@ -19,6 +19,8 @@ const {
   getAllVenue,
   addArticle,
   getAllArticle,
+  addFeaturedEvent,
+  removeFeaturedEvent,
 } = require('../controllers/adminController');
 const validateAdminToken = require('../middleware/validateAdminToken');
 const verifyAdmin = require('../middleware/verifyAdmin');
@@ -27,6 +29,8 @@ router.post('/login', loginAdmin);
 router.post('/register', registerAdmin);
 router.get('/current', validateAdminToken, currentAdmin);
 router.post('/addEvent', verifyAdmin, addEvent);
+router.post('/addFeaturedEvent', verifyAdmin, addFeaturedEvent);
+router.post('/removeFeaturedEvent', verifyAdmin, removeFeaturedEvent);
 router.get('/allevents', verifyAdmin, getallevents);
 router.put('/updateEvent/:id', verifyAdmin, updateEvent);
 router.delete('/deleteEvent/:id', verifyAdmin, deleteEvent);

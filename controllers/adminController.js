@@ -236,6 +236,51 @@ const particularEventRegis = async (req, res) => {
   }
 };
 
+const addFeaturedEvent = async (req, res) => {
+  const id = req.query.id;
+
+  try {
+    const data = await Event.findByIdAndUpdate(
+      id,
+      {
+        featuredEvent: true,
+      },
+      {
+        new: true
+      }
+    )
+
+    res.status(200).json(data);
+
+  } catch (error) {
+    console.log(error)
+  }
+
+
+}
+const removeFeaturedEvent = async (req, res) => {
+  const id = req.query.id;
+
+  try {
+    const data = await Event.findByIdAndUpdate(
+      id,
+      {
+        featuredEvent: false,
+      },
+      {
+        new: true
+      }
+    )
+
+    res.status(200).json(data);
+
+  } catch (error) {
+    console.log(error)
+  }
+
+
+}
+
 const updateEventRegis = async (req, res) => {
   const id = req.query.id;
   try {
@@ -365,6 +410,8 @@ module.exports = {
   updateEvent,
   deleteEvent,
   addEvent,
+  addFeaturedEvent,
+  removeFeaturedEvent,
   getallevents,
   updateEventRegis,
   getAllEventRegis,
