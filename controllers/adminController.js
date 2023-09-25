@@ -372,11 +372,13 @@ const getAllVenue = asyncHandler(async (req, res) => {
 });
 
 const addArticle = asyncHandler(async (req, res) => {
-  const { title, content } = req.body;
+  const { title, content,category, poster } = req.body;
 
   const newArticle = await Article.create({
     title,
     content,
+    category,
+    poster,
     date: new Date(),
   });
 
@@ -385,6 +387,8 @@ const addArticle = asyncHandler(async (req, res) => {
       _id: newArticle.id,
       title: newArticle.title,
       content: newArticle.content,
+      category: newArticle.category,
+      poster: newArticle.poster,
       date: newArticle.date,
     });
   } else {
@@ -400,6 +404,17 @@ const getAllArticle = asyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400);
+  }
+});
+
+const deleteArticle = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  try {
+    const article = await Article.findByIdAndDelete(id);
+
+    res.status(200).json(article);
+  } catch (err) {
+    console.log(err);
   }
 });
 
@@ -423,4 +438,5 @@ module.exports = {
   getAllVenue,
   addArticle,
   getAllArticle,
+  deleteArticle
 };

@@ -5,11 +5,18 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter title'],
   },
+  poster: {
+    type: String,
+    required: [true, 'Please enter poster'],
+  },
   content: {
     type: String,
     required: [true, 'Please enter content'],
   },
-
+  category: {
+    type: String,
+    required: [true, 'Please enter category'],
+  },
   date: {
     type: Date,
     required: [true, 'Please enter date'],
