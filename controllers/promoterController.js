@@ -22,7 +22,7 @@ const registerPromoter = asyncHandler(async (req, res) => {
     await user.save();
 
     // Create a new Promoter entry with the same email
-    const promoter = new Promoter({ email });
+    const promoter = new Promoter({details:user._id});
     await promoter.save();
 
     res.status(200).json({ success: true, message: "User registered as a promoter" });
@@ -34,8 +34,8 @@ const registerPromoter = asyncHandler(async (req, res) => {
 
 const getAllPromoters = asyncHandler(async (req, res) => {
   try {
-    const promoters = await Promoter.find();
-
+    const promoters = await Promoter.find().populate("details","-password").populate("registrations");
+    
     if (!promoters || promoters.length === 0) {
       return res.status(404).json({ success: false, message: "No promoters found" });
     }

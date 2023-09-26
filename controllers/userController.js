@@ -94,7 +94,13 @@ const loginUser = asyncHandler(async (req, res) => {
 //@access private
 const currentUser = asyncHandler(async (req, res) => {
   // console.log(req.user)
-  res.json(req.user);
+
+  const user = await User.find({email:req.user.email},"-password")
+  if(user) {
+    res.status(200).json(user)
+  }
+  else
+  res.status(401).json({message:"User not found"});
 });
 
 const getCoordinatorEvents = async (req, res) => {
