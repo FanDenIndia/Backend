@@ -12,11 +12,11 @@ const promoterSchema = new mongoose.Schema(
             type:mongoose.Schema.Types.ObjectId,
             ref:"EventRegis",        
         }],
-        events:[{
+        event:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"Event",        
             
-        }]
+        }
     },
 );
 

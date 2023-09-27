@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const Promoter = require("../models/promoterModel");
 
 const registerPromoter = asyncHandler(async (req, res) => {
-  const { email } = req.body;
+  const { email, event } = req.body;
 
   try {
     // Check if the user already exists
@@ -13,19 +13,23 @@ const registerPromoter = asyncHandler(async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    if (user.isPromoter) {
-      return res.status(400).json({ success: false, message: "User is already a promoter" });
-    }
-
-    // Set isPromoter to true for the user
     user.isPromoter = true;
     await user.save();
 
-    // Create a new Promoter entry with the same email
-    const promoter = new Promoter({details:user._id});
-    await promoter.save();
+    const existing = await Promoter.findOne({ details: user._id, event: event }).populate("details", "-password").populate("event");
+    if (existing) {
 
-    res.status(200).json({ success: true, message: "User registered as a promoter" });
+      return res.status(200).json({ success: true, data: existing })
+
+    }
+
+    const promoter = new Promoter({ details: user._id, event: event });
+
+    await promoter.save()
+
+    const data = await Promoter.findOne({ details: user._id, event: event }).populate("details", "-password").populate("event");
+
+    res.status(200).json({ success: true, data });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
@@ -34,8 +38,8 @@ const registerPromoter = asyncHandler(async (req, res) => {
 
 const getAllPromoters = asyncHandler(async (req, res) => {
   try {
-    const promoters = await Promoter.find().populate("details","-password").populate("registrations");
-    
+    const promoters = await Promoter.find().populate("details", "-password").populate("registrations").populate("event");
+
     if (!promoters || promoters.length === 0) {
       return res.status(404).json({ success: false, message: "No promoters found" });
     }
@@ -47,4 +51,28 @@ const getAllPromoters = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerPromoter, getAllPromoters };
+const addEventRegis = asyncHandler(async (req, res) => {
+  const { event, id,regisId } = req.body;
+
+  try {
+    const regis = await Promoter.findById(id);
+    if(!regis) return res.status(400).json({success:false , message:"User not a Promoter"});
+    console.log(regis)
+    const resp = regis.registrations;
+    console.log(resp)
+
+    const data = await Promoter.findOneAndUpdate({event,_id:id} , {registrations:[...resp,regisId]} , {
+      returnOriginal:false
+    });
+
+    if(!data) return res.status(400).json({success:false , message:"Some error occured"});
+
+    res.status(200).json({success:true , data});
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+})
+
+module.exports = { registerPromoter, getAllPromoters, addEventRegis };
