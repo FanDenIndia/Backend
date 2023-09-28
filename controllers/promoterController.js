@@ -16,7 +16,7 @@ const registerPromoter = asyncHandler(async (req, res) => {
     user.isPromoter = true;
     await user.save();
 
-    const existing = await Promoter.findOne({ details: user._id, event: event }).populate("details", "-password").populate("event");
+    const existing = await Promoter.findOne({ details: user._id, event: event }).populate("details", "-password").populate("event").populate("registrations","count");
     if (existing) {
 
       return res.status(200).json({ success: true, data: existing })
@@ -27,7 +27,7 @@ const registerPromoter = asyncHandler(async (req, res) => {
 
     await promoter.save()
 
-    const data = await Promoter.findOne({ details: user._id, event: event }).populate("details", "-password").populate("event");
+    const data = await Promoter.findOne({ details: user._id, event: event }).populate("details", "-password").populate("event").populate("registrations","count");
 
     res.status(200).json({ success: true, data });
   } catch (error) {
@@ -74,5 +74,6 @@ const addEventRegis = asyncHandler(async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 })
+
 
 module.exports = { registerPromoter, getAllPromoters, addEventRegis };
