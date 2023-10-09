@@ -5,19 +5,35 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter your name'],
   },
+
   quantity: {
     type: Number,
     required: [true, 'Please enter your quantity'],
     default: 1,
   },
-  qrcode: {
+  
+  userName: {
     type: String,
-    default: '',
+    required: [true, 'Please enter the user name'],
   },
 
-  userID: {
+  userEmail: {
     type: String,
-    required: [true, 'Please enter the user ID'],
+    required: [true, 'Please enter the user email'],
+  },
+
+  userPhone: {
+    type: String,
+    required: [true, 'Please enter the user phone'],
+  },
+
+  paymentId: {
+    type: String,
+  },
+
+  userAddress: {
+    type: String,
+    required: [true, 'Please enter the user address'],
   },
 
   order_status: {

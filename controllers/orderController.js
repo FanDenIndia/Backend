@@ -2,22 +2,33 @@ const asyncHandler = require('express-async-handler');
 const Order = require('../models/orderModel');
 
 const createOrder = async (req, res) => {
-  const { productName, quantity, userID, order_status } = req.body;
-  const neworder = await Order.create({
-    productName: productName,
-    quantity: quantity,
-    userID: userID,
-    order_status: order_status,
-    orderDate: new Date(),
-  });
+  const { productName, quantity, userName, userEmail, userAddress, userPhone, paymentId } = req.body;
+  const old = await Order.find({ paymentId: paymentId });
+  if (old) {
+    res.status(400).json({ message: 'Order already placed!' });
+  }
+  else {
 
-  if (neworder) {
-    res
-      .status(201)
-      .json({ _id: neworder._id, productName: neworder.productName });
-  } else {
-    res.status(400);
-    throw new Error('User data us not valid');
+
+    const neworder = await Order.create({
+      productName: productName,
+      quantity: quantity,
+      userName: userName,
+      userEmail: userEmail,
+      userPhone: userPhone,
+      userAddress: userAddress,
+      paymentId: paymentId,
+      orderDate: new Date(),
+    });
+
+    if (neworder) {
+      res
+        .status(201)
+        .json({ _id: neworder._id, productName: neworder.productName });
+    } else {
+      res.status(400);
+      throw new Error('User data us not valid');
+    }
   }
 };
 

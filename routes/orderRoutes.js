@@ -11,7 +11,7 @@ const verifyAdmin = require('../middleware/verifyAdmin');
 
 const router = express.Router();
 
-router.post('/createOrder', validateUserToken, createOrder);
+router.post('/createOrder', createOrder);
 
 router.post('/cancelOrder', validateUserToken, cancelOrder);
 
