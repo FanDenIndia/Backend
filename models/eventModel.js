@@ -9,6 +9,9 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add the Poster'],
   },
+  videoLink: {
+    type: String,
+  },
   city: {
     type: String,
     required: [true, 'Please add the city'],

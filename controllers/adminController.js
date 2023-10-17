@@ -131,7 +131,8 @@ const addEvent = asyncHandler(async (req, res) => {
     eventDate,
     quantity,
     description,
-    payAtVenue, // Add the new field here
+    payAtVenue, 
+    videoLink
   } = req.body;
 
   const event = new Event();
@@ -145,7 +146,8 @@ const addEvent = asyncHandler(async (req, res) => {
   event.eventDate = eventDate;
   event.quantity = quantity;
   event.description = description;
-  event.payAtVenue = payAtVenue; // Set the new field here
+  event.payAtVenue = payAtVenue;
+  event.videoLink = videoLink;
 
   let error = '';
   try {
@@ -178,7 +180,8 @@ const addEvent = asyncHandler(async (req, res) => {
     eventDate,
     quantity,
     description,
-    payAtVenue, // Include the new field here
+    payAtVenue, 
+    videoLink
   });
 
   if (newevent) {
@@ -194,7 +197,8 @@ const addEvent = asyncHandler(async (req, res) => {
       evenDate: newevent.eventDate,
       quantity: newevent.quantity,
       description: newevent.description,
-      payAtVenue: newevent.payAtVenue, // Include the new field here
+      payAtVenue: newevent.payAtVenue, 
+      videoLink: newevent.videoLink
     });
   } else {
     res.status(400);
